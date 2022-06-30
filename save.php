@@ -10,5 +10,3 @@ $lon = mysqli_real_escape_string($link, $_POST['lon']);
 $time = mysqli_real_escape_string($link, $_POST['time']);
 
 $query = mysqli_query($link, "INSERT INTO tracks SET runnerid='$runnerId', lat='$lat', lon='$lon', time='$time'");
-
-?>

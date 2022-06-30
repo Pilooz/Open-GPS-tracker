@@ -64,5 +64,3 @@ if(isset($_GET['state'])){
 else{
 	echo 'Error';
 }
-
-?>

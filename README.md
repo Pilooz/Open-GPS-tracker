@@ -23,7 +23,7 @@ What you need: a web server with PHP-support.
 
 ###Installation:
 1.	Upload the files to your server.
-2.	Edit `config.php` with your config.
+2.	Copy `config.php.sample` in `config.sample` and replace fake values by yours.
 3.	Create a table as per database.sql
 
 ###Tracking:

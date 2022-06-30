@@ -1,6 +1,6 @@
 <?php
 
-require_once 'config.php';
+require_once './config/config.php';
 
 function db_connect() {
 	global $link;
@@ -11,5 +11,3 @@ function db_connect() {
 
 	mysqli_select_db($link, DB_NAME) or die('Can not access database.');
 }
-
-?>

@@ -1,0 +1,33 @@
+# Déploiement Nginx / php 
+# https://www.sitepoint.com/docker-php-development-environment/
+version: '3'
+services:
+    web:
+        image: nginx:latest
+        ports:
+          - "80:80"
+        volumes:
+          - ./docker/conf/nginx.conf:/etc/nginx/conf.d/nginx.conf
+          - ./app:/app
+    php:
+        build:
+            context: .
+            dockerfile: php.Dockerfile
+        volumes:
+            - ./app:/app
+    mysql:
+        environment:
+            MARIADB_ROOT_PASSWORD: 'secret'
+            MARIADB_USER: 'tracker'
+            MARIADB_PASSWORD: 'secret'
+            MARIADB_DATABASE: 'gpstracker'
+        build:
+            context: .
+            dockerfile: mariadb.dockerfile
+        volumes:
+            - mysqldata:/var/lib/mysql
+            - ./docker/db-init/:/docker-entrypoint-initdb.d/
+        ports:
+            - 3306:3306
+volumes:
+  mysqldata: {}

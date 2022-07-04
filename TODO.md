@@ -18,7 +18,7 @@
 
  - Passer sous OSM
  - Se passer de base de données ? => fichiers json + Redis ?  
- - Dockeriser le tout
-   - Front
-   - back php
-   - database
+ + Dockeriser le tout
+   + Front
+   + back php
+   + database

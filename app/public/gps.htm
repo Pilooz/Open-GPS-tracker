@@ -3,8 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Open GPS-tracker</title>
-	<!-- <link rel="stylesheet" href="style.css"> -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/umbrellajs"></script>
 	<script src="gps.js"></script>
 	<link rel="stylesheet" href="style.css" />
 	<meta name="viewport" content="width=device-width,user-scalable=no" />
@@ -16,9 +15,10 @@
 
 <div id="page">
 
-	<div id="status"><p class="stopped"></p></div>
+	<div id="status"><p class="stopped">Not tracking</p></div>
 	<button id="start">Start tracking</button>
 	<button id="stop" disabled="disabled">Stop tracking</button>
+	<div id="msg" style="font-size: 0.8em;"><p class="ok"></p></div>
 
 </div>
 

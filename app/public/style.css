@@ -29,6 +29,19 @@ body{
 	width: 8em;
 }
 
+#msg p{
+	height: 0.5em;
+	font-size: 0.1em;
+}
+
+.err {
+	color:red;
+}
+
+.ok {
+	color:green;
+}
+
 .stopped{
 	background: red;
 	color: white;

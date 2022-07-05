@@ -1,21 +1,23 @@
-$(document).ready(function() {
-
+document.addEventListener("DOMContentLoaded", function(event) { 
 	// how often should we send location data? in seconds
 	var sendInterval = 5;
 
 	var runnerId;
 	while (!runnerId){
-		runnerId = prompt("Enter your runner ID:", "");
+		runnerId = prompt("Nom du cycliste :", "");
 	}
+
 	var intervalId;
 	var watchId;
-	var index = 0;
-	
+	var idx = 0;
 	var formData = {};
+	var status = u("#status p"), strt = u('#start'), stop = u('#stop'), msg = u('#msg p');
 
-	$("#status p").text("Not tracking");
-	$('#start').on("click", startTrack);
-	$('#stop').on("click", stopTrack);
+	// Init
+	status.text("Not tracking");
+	strt.on("click", startTrack);
+	stop.on("click", stopTrack);
+	msg.text("");
 
 	function startTrack(){
 		if(navigator.geolocation){
@@ -30,16 +32,22 @@ $(document).ready(function() {
 	function stopTrack(){
 		clearInterval(intervalId);
 		navigator.geolocation.clearWatch(watchId);
-		index = 0;
-		$("#status p").text("Not tracking").removeClass("active").addClass("stopped");
-		$("#start").removeAttr("disabled");
-		$("#stop").attr("disabled", "disabled");
+		idx = 0;
+		status.text("Not tracking")
+		status.removeClass("active")
+		status.addClass("stopped")
+
+		strt.attr("disabled", "");
+		stop.attr("disabled", "disabled");
 	}
 	
 	function geo_success(position){
-		$("#status p").text("Tracking active").removeClass("stopped").addClass("active");
-		$("#start").attr("disabled", "disabled");
-		$("#stop").removeAttr("disabled");
+		status.text("Tracking active")
+		status.removeClass("stopped")
+		status.addClass("active");
+
+		strt.attr("disabled", "disabled");
+		stop.attr("disabled", "");
 		
 		lat = position.coords.latitude;
 		lon = position.coords.longitude;
@@ -47,11 +55,11 @@ $(document).ready(function() {
 		formData.lat=lat;
 		formData.lon=lon;
 				
-		if(index === 0){
+		if(idx === 0){
 			intervalId = setInterval(postData, sendInterval*1000);
 		}
 
-		index++;
+		idx++;
 	}
 
 	function addTime(){
@@ -62,7 +70,6 @@ $(document).ready(function() {
 		formData.time=d_utc;
 		
 		// date to ISO 8601,
-		// developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date#Example.3a_ISO_8601_formatted_dates
 		function ISODateString(d){
 			function pad(n){return n<10 ? '0'+n : n}
 			return d.getUTCFullYear()+'-'
@@ -74,15 +81,29 @@ $(document).ready(function() {
 		}
 	}
 
-	function postData(){
+	async function postData(){
 		addTime();
+		msg.text("");
+		msg.removeClass("err")
+		msg.removeClass("ok")
 
-		$.ajax({
-			type:	'POST',
-			url:	'save.php?file='+runnerId,
-			data:	formData,
-			async:	false,
+		let response = await fetch("index.php?action=track&runnerId="+runnerId, {
+			method: 'POST',
+			headers: {
+			  'Content-Type': 'application/json;charset=utf-8'
+			},
+			body: JSON.stringify(formData)
 		});
+
+		let result = await response.json();
+		if (result.message != "OK") {
+			msg.addClass("err")
+			msg.text(result.message);
+		} else {
+			msg.addClass("ok")
+			msg.html("Last stored point :\n<br>" + formData.lat + ", " + formData.lon + "");
+		}
+	
 	}
 
 	function errorHandler(err){ 

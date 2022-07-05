@@ -6,13 +6,6 @@ function db_connect() {
 	return new PDO("mysql:dbname=".DB_NAME.";host=".DB_HOST.";port=".DB_PORT, DB_USER, DB_PASSWORD, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_EMULATE_PREPARES => false ]);
 }
 
-function db_version() {
-	$pdo = db_connect();
-	$query = $pdo->query('SHOW VARIABLES like "version"');
-	$row = $query->fetch();
-	echo 'MySQL version:' . $row['Value'];
-}
-
 function db_save($data) {
 	try {
 		$pdo = db_connect();

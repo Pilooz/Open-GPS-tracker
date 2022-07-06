@@ -6,7 +6,7 @@ $action = (isset($_GET['action']) &&  $_GET['action'] !== "") ? $_GET['action'] 
 
 switch ($action) {
     case 'gps':
-        include_once('gps.htm');
+        include_once('gps.php');
         break;
 
     case 'track':
@@ -19,8 +19,8 @@ switch ($action) {
         break;
     
     case 'view':
-    include_once('viewer/viwer.htm');
-    break;
+        include_once('viewer.php');
+        break;
 
     default:
     # code...

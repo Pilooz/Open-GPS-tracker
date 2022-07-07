@@ -33,18 +33,18 @@
   POSSIBILITY OF SUCH DAMAGE.
 -->
   <head>
-    <title>leaflet-gpx demo</title>
+    <title>visualiser</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
     <style type="text/css">
-      body { width: 800px; margin: 0 auto; }
+      body { width: 100%; margin: 0 auto; }
       .gpx { border: 2px #aaa solid; border-radius: 5px;
         box-shadow: 0 0 3px 3px #ccc;
-        width: 800px; margin: 1em auto; }
+        width: 80%; margin: 1em auto; }
       .gpx header { padding: 0.5em; }
       .gpx h3 { margin: 0; padding: 0; font-weight: bold; }
       .gpx .start { font-size: smaller; color: #444; }
       .gpx .map { border: 1px #888 solid; border-left: none; border-right: none;
-        width: 800px; height: 500px; margin: 0; }
+        width: 100%; height: 640px; margin: 0; }
       .gpx footer { background: #f0f0f0; padding: 0.5em; }
       .gpx ul.info { list-style: none; margin: 0; padding: 0; font-size: smaller; }
       .gpx ul.info li { color: #666; padding: 2px; display: inline; }
@@ -52,7 +52,8 @@
     </style>
   </head>
   <body>
-    <section id="demo" class="gpx" data-gpx-source="demo.gpx" data-map-target="demo-map">
+	<section id="liste"></section>
+    <section id="demo" class="gpx" data-gpx-source="gpx/demo.gpx" data-map-target="demo-map">
       <header>
         <h3>Loading...</h3>
         <span class="start"></span>
@@ -66,8 +67,6 @@
         <ul class="info">
           <li>Distance :&nbsp;<span class="distance"></span>&nbsp;km</li>
           &mdash; <li>Temps :&nbsp;<span class="duration"></span></li>
-          <!-- &mdash; <li>Pace:&nbsp;<span class="pace"></span>/m</li> -->
-          <!-- &mdash; <li>Avg&nbsp;HR:&nbsp;<span class="avghr"></span>&nbsp;bpm</li> -->
           &mdash; <li>El&eacute;vation :&nbsp;+<span class="elevation-gain"></span>&nbsp;m,
             -<span class="elevation-loss"></span>&nbsp;m
             (D&eacute;nivel&eacute; :&nbsp;<span class="elevation-net"></span>&nbsp;m)</li>
@@ -75,8 +74,8 @@
       </footer>
     </section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.1/gpx.js"></script>
+    <script src="js/vendor/leaflet.js"></script>
+    <script src="js/vendor/gpx.js"></script>
     <script type="application/javascript">
       function display_gpx(elt) {
         if (!elt) return;
@@ -101,6 +100,10 @@
             startIconUrl: 'images/pin-icon-start.png',
             endIconUrl:   'images/pin-icon-end.png',
             shadowUrl:    'images/pin-shadow.png',
+			iconSize: [22, 32],
+  			shadowSize: [35, 35],
+			iconAnchor: [11, 32],
+			shadowAnchor: [11, 33],
           },
         }).on('loaded', function(e) {
           var gpx = e.target;
@@ -116,8 +119,6 @@
             + gpx.get_start_time().toLocaleTimeString();
           _c('distance').textContent = (gpx.get_distance()/1000).toFixed(2);
           _c('duration').textContent = gpx.get_duration_string(gpx.get_moving_time());
-        //   _c('pace').textContent     = gpx.get_duration_string(gpx.get_moving_pace(), true);
-        //   _c('avghr').textContent    = gpx.get_average_hr();
           _c('elevation-gain').textContent = gpx.to_ft(gpx.get_elevation_gain()).toFixed(0);
           _c('elevation-loss').textContent = gpx.to_ft(gpx.get_elevation_loss()).toFixed(0);
           _c('elevation-net').textContent  = gpx.to_ft(gpx.get_elevation_gain()

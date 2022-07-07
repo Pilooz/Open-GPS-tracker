@@ -19,6 +19,8 @@ switch ($action) {
         break;
     
     case 'view':
+        $res = db_get_track_by_name("pilooz");
+        $res2 = db_get_last_position("pilooz");
         include_once('viewer.php');
         break;
 

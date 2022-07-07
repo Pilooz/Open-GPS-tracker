@@ -8,7 +8,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Open GPS-tracker</title>
-	<script src="js/umbrella.js"></script>
+	<script src="js/vendor/umbrella.js"></script>
 	<script src="js/gps.js"></script>
 	<link rel="stylesheet" href="css/style.css" />
 	<meta name="viewport" content="width=device-width,user-scalable=no" />

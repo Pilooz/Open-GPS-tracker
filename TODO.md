@@ -18,7 +18,7 @@
 ## Features
 
  - Passer sous OSM
- - Se passer de base de données ? => fichiers json + Redis ?  
+ - Se passer de base de données ? => fichiers GPX
  + Dockeriser le tout
    + Front
    + back php

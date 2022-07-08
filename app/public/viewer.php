@@ -34,6 +34,7 @@
 -->
   <head>
     <title>visualiser</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
     <style type="text/css">
       body { width: 100%; margin: 0 auto; display: flex }
@@ -42,6 +43,7 @@
       .box h3 { margin: 0; padding: 0; font-weight: bold; }
       .box footer { background: #f0f0f0; padding: 0.5em; }
 	  .list { width: 20%; margin: 1em 1em 0 2em; }
+	  .list ul {list-style: none;}
       .gpx { width: 73%; margin: 1em 0 0 1em;  }
       .gpx .start { font-size: smaller; color: #444; }
       .gpx .map { border: 1px #888 solid; border-left: none; border-right: none;
@@ -94,7 +96,6 @@
 	  function display_list(elt, data) {
 		data.forEach(t => {
 			var li = document.createElement("li");
-			// li.innerHTML = "<a href=\"#\">" + t.trackname + "</a>";
 			li.innerHTML = "<a href=\"index.php?action=view&trackname=" + t.trackname + "\">" + t.trackname + "</a>";
 			elt.appendChild(li);		
 		});
@@ -180,17 +181,9 @@
 			.catch(error => {console.log(error)});
 	}
 
-	// document.querySelector('body #tracklist #list').addEventListener('click', function(evt) {
-	// 	var track = evt.target.innerHTML;
-	// 	get_gpx_trace(track);
-		
-	// }, true); // Use Capturing
-
-
 	get_list();
-
-
-	get_gpx_trace('<?php echo $_GET['trackname']; ?>');
+	
+	get_gpx_trace('<?php if (isset($_GET['trackname'])) { echo $_GET['trackname']; } else {} ?>');
 	
 	});
     </script>

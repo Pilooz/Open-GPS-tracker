@@ -1,3 +1,3 @@
 .DS_Store
-config/config.php
-public/gpx/*
+app/public/config/config.php
+app/public/gpx/*.gpx

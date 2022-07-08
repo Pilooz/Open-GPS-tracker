@@ -36,24 +36,36 @@
     <title>visualiser</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
     <style type="text/css">
-      body { width: 100%; margin: 0 auto; }
-      .gpx { border: 2px #aaa solid; border-radius: 5px;
-        box-shadow: 0 0 3px 3px #ccc;
-        width: 80%; margin: 1em auto; }
-      .gpx header { padding: 0.5em; }
-      .gpx h3 { margin: 0; padding: 0; font-weight: bold; }
+      body { width: 100%; margin: 0 auto; display: flex }
+	  .box { border: 2px #aaa solid; border-radius: 5px;}
+      .box header { padding: 0.5em; }
+      .box h3 { margin: 0; padding: 0; font-weight: bold; }
+      .box footer { background: #f0f0f0; padding: 0.5em; }
+	  .list { width: 20%; margin: 1em 1em 0 2em; }
+      .gpx { width: 73%; margin: 1em 0 0 1em;  }
       .gpx .start { font-size: smaller; color: #444; }
       .gpx .map { border: 1px #888 solid; border-left: none; border-right: none;
-        width: 100%; height: 640px; margin: 0; }
-      .gpx footer { background: #f0f0f0; padding: 0.5em; }
+        width: 100%; height: 600px; margin: 0; }
       .gpx ul.info { list-style: none; margin: 0; padding: 0; font-size: smaller; }
       .gpx ul.info li { color: #666; padding: 2px; display: inline; }
       .gpx ul.info li span { color: black; }
     </style>
   </head>
   <body>
-	<section id="liste"></section>
-    <section id="demo" class="gpx" data-gpx-source="gpx/demo.gpx" data-map-target="demo-map">
+	<section id="tracklist" class="list box">
+
+	<aside>
+	  <header>
+		<h3>Liste des traces</h3>
+	  </header>
+	  <ul id="list">
+
+	  </ul>
+
+	</aside>
+
+	</section>
+    <section id="demo" class="gpx box" data-gpx-source="" data-map-target="demo-map">
       <header>
         <h3>Loading...</h3>
         <span class="start"></span>
@@ -77,12 +89,23 @@
     <script src="js/vendor/leaflet.js"></script>
     <script src="js/vendor/gpx.js"></script>
     <script type="application/javascript">
-      function display_gpx(elt) {
-        if (!elt) return;
+	document.addEventListener("DOMContentLoaded", function(event) { 
 
-        var url = elt.getAttribute('data-gpx-source');
+	  function display_list(elt, data) {
+		data.forEach(t => {
+			var li = document.createElement("li");
+			// li.innerHTML = "<a href=\"#\">" + t.trackname + "</a>";
+			li.innerHTML = "<a href=\"index.php?action=view&trackname=" + t.trackname + "\">" + t.trackname + "</a>";
+			elt.appendChild(li);		
+		});
+	  }
+
+      function display_gpx(elt, url) {
+        if (!elt) return;
+		
         var mapid = elt.getAttribute('data-map-target');
-        if (!url || !mapid) return;
+
+		if (!url || !mapid) return;
 
         function _t(t) { return elt.getElementsByTagName(t)[0]; }
         function _c(c) { return elt.getElementsByClassName(c)[0]; }
@@ -126,7 +149,50 @@
         }).addTo(map);
       }
 
-      display_gpx(document.getElementById('demo'));
+	function get_gpx_trace(trackname) {
+		if (trackname !== undefined && trackname !== "" ) {
+			fetch("index.php?action=gpx&runnerid="+trackname, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json;charset=utf-8'
+				}
+			})
+				.then(response => response.json())
+				.then(data => {
+					display_gpx(document.getElementById('demo'),  data.file);
+					})
+				.catch(error => {console.log(error)});
+		}
+	}
+
+
+	function get_list() {
+	  fetch("index.php?action=tracklist", {
+			method: 'GET',
+			headers: {
+			  'Content-Type': 'application/json;charset=utf-8'
+			}
+		})
+			.then(response => response.json())
+			.then(data => {
+				display_list(document.getElementById('list'),  data);
+			 })
+			.catch(error => {console.log(error)});
+	}
+
+	// document.querySelector('body #tracklist #list').addEventListener('click', function(evt) {
+	// 	var track = evt.target.innerHTML;
+	// 	get_gpx_trace(track);
+		
+	// }, true); // Use Capturing
+
+
+	get_list();
+
+
+	get_gpx_trace('<?php echo $_GET['trackname']; ?>');
+	
+	});
     </script>
   </body>
 </html>

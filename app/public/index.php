@@ -9,6 +9,12 @@ switch ($action) {
         include_once('gps.php');
         break;
 
+    case 'view':
+        $res = db_get_track_by_name("pilooz");
+        $res2 = db_get_last_position("pilooz");
+        include_once('viewer.php');
+        break;
+
     case 'track':
         $json = file_get_contents('php://input');
         // Converts it into a PHP object
@@ -18,13 +24,19 @@ switch ($action) {
         echo $result;
         break;
     
-    case 'view':
-        $res = db_get_track_by_name("pilooz");
-        $res2 = db_get_last_position("pilooz");
-        include_once('viewer.php');
+        case 'gpx':
+        $file = db_generate_gpx($_GET['runnerid']);
+        header("Content-Type: application/json");
+        echo $file;
         break;
 
-    default:
+    case 'tracklist':
+        $res = db_get_track_list();
+        header("Content-Type: application/json");
+        echo json_encode($res);
+        break;
+
+        default:
     # code...
     break;
 }

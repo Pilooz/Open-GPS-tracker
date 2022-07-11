@@ -25,7 +25,7 @@ services:
             context: .
             dockerfile: mariadb.dockerfile
         volumes:
-            - mysqldata:/var/lib/mysql
+            - C:\Users\ICG4702\Documents\developpements\Open-GPS-tracker\mysqldata:/var/lib/mysql
             - ./docker/db-init/:/docker-entrypoint-initdb.d/
         ports:
             - 3306:3306

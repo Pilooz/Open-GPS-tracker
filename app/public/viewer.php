@@ -38,13 +38,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
     <style type="text/css">
       body { width: 100%; margin: 0 auto; display: flex }
-	  .box { border: 2px #aaa solid; border-radius: 5px;}
+	  .box { border: 2px #aaa solid; border-radius: 7px;}
       .box header { padding: 0.5em; }
       .box h3 { margin: 0; padding: 0; font-weight: bold; }
       .box footer { background: #f0f0f0; padding: 0.5em; }
-	  .list { width: 20%; margin: 1em 1em 0 2em; }
+	  .list { width: 20%; margin: 1em 1em 1em 2em; }
 	  .list ul {list-style: none;}
-      .gpx { width: 73%; margin: 1em 0 0 1em;  }
+      .gpx { width: 73%; margin: 1em 0 1em 1em;  }
       .gpx .start { font-size: smaller; color: #444; }
       .gpx .map { border: 1px #888 solid; border-left: none; border-right: none;
         width: 100%; height: 600px; margin: 0; }
@@ -92,6 +92,7 @@
     <script src="js/vendor/gpx.js"></script>
     <script type="application/javascript">
 	document.addEventListener("DOMContentLoaded", function(event) { 
+    const date_options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
 	  function display_list(elt, data) {
 		data.forEach(t => {
@@ -139,7 +140,7 @@
            * an actual GPS track with timing and heartrate information.
            */
           _t('h3').textContent = gpx.get_name();
-          _c('start').textContent = gpx.get_start_time().toDateString() + ', '
+          _c('start').textContent = gpx.get_start_time().toLocaleDateString('fr-FR', date_options) + ', '
             + gpx.get_start_time().toLocaleTimeString();
           _c('distance').textContent = (gpx.get_distance()/1000).toFixed(2);
           _c('duration').textContent = gpx.get_duration_string(gpx.get_moving_time());

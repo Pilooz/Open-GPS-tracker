@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		runnerId = prompt("Nom du cycliste :", "");
 	}
 
+	// Sanitize ruunerId
+	//runnerId = runnerId.replace(" ", "-");
+	var countPoints = 0;
 	var intervalId;
 	var watchId;
 	var idx = 0;
@@ -100,8 +103,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			msg.addClass("err")
 			msg.text(result.message);
 		} else {
+			countPoints++;
 			msg.addClass("ok")
-			msg.html("Last stored point :\n<br>" + formData.lat + ", " + formData.lon + "");
+			msg.html("<ul class='lastPoint'><li>" + formData.lat + ", " + formData.lon + "</li><li>" + formData.time + "</li><li>" + countPoints + " points </li></ul>" );
 		}
 	
 	}

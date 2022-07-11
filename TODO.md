@@ -20,6 +20,8 @@
    + Front
    + back php
    + database
+   - Persistance BDD 
+ - Affichage de la date en français sur le viewer
 
 ### Navigation
 
@@ -32,6 +34,13 @@
 ## Prospective 
   - viewer : charger une trace par défaut : la dernière ?
   - Dark theme pour l'écran "track"
+  - Afficher plusieurs traces GPX ?
   - Ajouter Authentification sur viewer (lecture)
   - Ajouter authentification sur tracker (admin)
+    - Ajouter une table des users. 
+    - préfixer automatiquement toutes les traces par le login user.
+  
   - Se passer de base de données ? => fichiers GPX
+  + Comptage des points gps
+  - Caching de l'envoie des points gps
+  - 

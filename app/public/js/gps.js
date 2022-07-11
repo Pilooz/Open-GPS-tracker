@@ -5,10 +5,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	var runnerId;
 	while (!runnerId){
 		runnerId = prompt("Nom du cycliste :", "");
+		// Sanitize ruunerId
+		runnerId = runnerId.replace(" ", "-")
+						   .replace("&", "-")
+						   .replace("'", "")
+						   .replace("\"", "")
+						   .replace("?", "")
+						   .replace("%", "");
 	}
 
-	// Sanitize ruunerId
-	//runnerId = runnerId.replace(" ", "-");
 	var countPoints = 0;
 	var intervalId;
 	var watchId;
@@ -104,8 +109,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			msg.text(result.message);
 		} else {
 			countPoints++;
+			var s = (countPoints > 1)? "s":"";
 			msg.addClass("ok")
-			msg.html("<ul class='lastPoint'><li>" + formData.lat + ", " + formData.lon + "</li><li>" + formData.time + "</li><li>" + countPoints + " points </li></ul>" );
+			msg.html("<ul class='lastPoint'><li>" + formData.lat + ", " + formData.lon + "</li><li>" + formData.time + "</li><li>" + countPoints + " point" + s + " </li></ul>" );
 		}
 	
 	}

@@ -33,72 +33,68 @@
   POSSIBILITY OF SUCH DAMAGE.
 -->
   <head>
-    <title>visualiser</title>
+  <title>visualiser</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
     <style type="text/css">
-      body { width: 100%; margin: 0 auto; display: flex }
-	  .box { border: 2px #aaa solid; border-radius: 7px;}
+	  .box { border: 1px #aaa solid; border-radius: 7px; margin:1.5em;}
       .box header { padding: 0.5em; }
       .box h3 { margin: 0; padding: 0; font-weight: bold; }
       .box footer { background: #f0f0f0; padding: 0.5em; }
-	  .list { width: 20%; margin: 1em 1em 1em 2em; }
-	  .list ul {list-style: none;}
-      .gpx { width: 73%; margin: 1em 0 1em 1em;  }
-      .gpx .start { font-size: smaller; color: #444; }
-      .gpx .map { border: 1px #888 solid; border-left: none; border-right: none;
-        width: 100%; height: 600px; margin: 0; }
-      .gpx ul.info { list-style: none; margin: 0; padding: 0; font-size: smaller; }
-      .gpx ul.info li { color: #666; padding: 2px; display: inline; }
-      .gpx ul.info li span { color: black; }
+    table#list {overflow: scroll; max-height: 600px;}
+    button.action {font-size: 0.7em;}
+    .gpx .start { font-size: smaller; color: #444; }
+    .gpx .map { border: 1px #888 solid; border-left: none; border-right: none; height: 600px; margin: 0; }
+    .gpx ul.info { list-style: none; margin: 0; padding: 0; font-size: smaller; }
+    .gpx ul.info li { color: #666; padding: 2px; display: inline; }
+    .gpx ul.info li span { color: black; }
     </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-	<section id="tracklist" class="list box">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-2 list box" id="tracklist">
+          <header>
+          <h3>Liste des traces</h3>
+          </header>
+          <table id="list" class="striped hoverable"></table>
+      </div>
 
-	<aside>
-	  <header>
-		<h3>Liste des traces</h3>
-	  </header>
-	  <ul id="list">
+      <div class="col-sm-9 gpx box" id="demo" data-gpx-source="" data-map-target="demo-map">
+            <header>
+              <h3>Loading...</h3>
+              <span class="start"></span>
+            </header>
 
-	  </ul>
+            <article>
+              <div class="map" id="demo-map"></div>
+            </article>
 
-	</aside>
-
-	</section>
-    <section id="demo" class="gpx box" data-gpx-source="" data-map-target="demo-map">
-      <header>
-        <h3>Loading...</h3>
-        <span class="start"></span>
-      </header>
-
-      <article>
-        <div class="map" id="demo-map"></div>
-      </article>
-
-      <footer>
-        <ul class="info">
-          <li>Distance :&nbsp;<span class="distance"></span>&nbsp;km</li>
-          &mdash; <li>Temps :&nbsp;<span class="duration"></span></li>
-          &mdash; <li>El&eacute;vation :&nbsp;+<span class="elevation-gain"></span>&nbsp;m,
-            -<span class="elevation-loss"></span>&nbsp;m
-            (D&eacute;nivel&eacute; :&nbsp;<span class="elevation-net"></span>&nbsp;m)</li>
-        </ul>
-      </footer>
-    </section>
-
-    <script src="js/vendor/leaflet.js"></script>
-    <script src="js/vendor/gpx.js"></script>
-    <script type="application/javascript">
+            <footer>
+              <ul class="info">
+                <li>Distance :&nbsp;<span class="distance"></span>&nbsp;km</li>
+                &mdash; <li>Temps :&nbsp;<span class="duration"></span></li>
+                &mdash; <li>El&eacute;vation :&nbsp;+<span class="elevation-gain"></span>&nbsp;m,
+                  -<span class="elevation-loss"></span>&nbsp;m
+                  (D&eacute;nivel&eacute; :&nbsp;<span class="elevation-net"></span>&nbsp;m)</li>
+              </ul>
+            </footer>
+      </div>
+    </div>
+  </div>    
+  <script src="js/vendor/leaflet.js"></script>
+  <script src="js/vendor/gpx.js"></script>
+  <script type="application/javascript">
 	document.addEventListener("DOMContentLoaded", function(event) { 
     const date_options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
 	  function display_list(elt, data) {
 		data.forEach(t => {
-			var li = document.createElement("li");
-			li.innerHTML = "<a href=\"index.php?action=view&trackname=" + t.trackname + "\">" + t.trackname + "</a>";
-			elt.appendChild(li);		
+			var tr = document.createElement("tr");
+			tr.innerHTML = "<td><a href=\"index.php?action=view&trackname=" + t.trackname + "\">" + t.trackname + "</a></td>";
+      tr.innerHTML += "<td><button id=\"" + t.trackname + "\" class='small rounded shadowed action'>Supprimer</button></td>";
+			elt.appendChild(tr);		
 		});
 	  }
 
@@ -187,6 +183,6 @@
 	get_gpx_trace('<?php if (isset($_GET['trackname'])) { echo $_GET['trackname']; } else {} ?>');
 	
 	});
-    </script>
-  </body>
+  </script>
+</body>
 </html>

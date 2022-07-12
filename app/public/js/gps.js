@@ -6,10 +6,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	while (!runnerId){
 		runnerId = prompt("Nom du cycliste :", "");
 		// Sanitize ruunerId
-		runnerId = runnerId.replace(" ", "-")
+		runnerId = runnerId
+						//    .replace(" ", "-")
 						   .replace("&", "-")
-						   .replace("'", "")
-						   .replace("\"", "")
+						   .replace("'", "-")
+						   .replace("\"", "_")
 						   .replace("?", "")
 						   .replace("%", "");
 	}
@@ -23,9 +24,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 	// Init
 	status.text("Not tracking");
+	msg.html("");
+	// Listeners
 	strt.on("click", startTrack);
 	stop.on("click", stopTrack);
-	msg.text("");
 
 	function startTrack(){
 		if(navigator.geolocation){
@@ -47,10 +49,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 		strt.attr("disabled", "");
 		stop.attr("disabled", "disabled");
+		msg.removeClass("ok");
+		msg.addClass("err");
 	}
 	
 	function geo_success(position){
-		status.text("Tracking active")
+		status.html("Tracking active");
 		status.removeClass("stopped")
 		status.addClass("active");
 
@@ -110,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		} else {
 			countPoints++;
 			var s = (countPoints > 1)? "s":"";
-			msg.addClass("ok")
+			msg.addClass("ok");
 			msg.html("<ul class='lastPoint'><li>" + formData.lat + ", " + formData.lon + "</li><li>" + formData.time + "</li><li>" + countPoints + " point" + s + " </li></ul>" );
 		}
 	

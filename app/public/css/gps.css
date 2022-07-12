@@ -4,12 +4,12 @@
 
 body{
 	font-family: sans-serif;
-	background: #EFEFEF;
+	background: black;
 	padding: 1em;
 }
 
 #page{
-	background: #FFF;
+	background: black;
 	padding: 2em;
 	border-radius: 5px;
 	max-width: 258px;
@@ -39,17 +39,17 @@ body{
 }
 
 .ok {
-	color:green;
+	color:lime;
 }
 
 .stopped{
-	background: red;
-	color: white;
+	background: black;
+	color: red;
 }
 
 .active{
-	background: lime;
-	color: black;
+	background: black;
+	color: lime;
 }
 
 button{
@@ -62,9 +62,15 @@ button{
 	width: 8em;
 	border: 1px solid gray;
 	border-radius: 3px;
-	background: lightgray;
+	background: black;
+	color: grey;
 	font-weight: bold;
 	cursor: pointer;
+}
+
+button:disabled {
+	color:rgb(61, 61, 61);
+	cursor: normal;
 }
 
 button:last-child{

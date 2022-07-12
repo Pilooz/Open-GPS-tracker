@@ -1,4 +1,5 @@
 <?php
+// require_once '../lib/lib.auth.php';
 require_once './config/config.php';
 require_once '../lib/lib.db.php';
 
@@ -10,8 +11,8 @@ switch ($action) {
         break;
 
     case 'view':
-        $res = db_get_track_by_name("pilooz");
-        $res2 = db_get_last_position("pilooz");
+        // $res = db_get_track_by_name("pilooz");
+        // $res2 = db_get_last_position("pilooz");
         include_once('viewer.php');
         break;
 

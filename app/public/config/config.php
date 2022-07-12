@@ -7,7 +7,7 @@ define('DB_USER', 'tracker');
 define('DB_PASSWORD', 'secret');
 
 // MySQL-server
-define('DB_HOST', '172.20.0.2');
+define('DB_HOST', 'open-gps-tracker-mysql-1');
 
 // MySQL-port
 define('DB_PORT', '3306');
@@ -17,6 +17,3 @@ define('DB_NAME', 'gpstracker');
 
 // name of competition
 define('COMP_NAME', 'Test competiton');
-
-// google maps api-key
-define('GMAPS_APIKEY', 'your gmaps api key');

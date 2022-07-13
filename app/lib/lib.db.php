@@ -3,6 +3,10 @@
 		header( 'location: /index.php' );
     }
 
+function _escape_string($s) {
+	return str_replace("'","\'", $s);
+}
+
 function _db_connect() {
 	// Doing connexion with IP instead of localhost.
 	// https://stackoverflow.com/questions/29695450/pdoexception-sqlstatehy000-2002-no-such-file-or-directory
@@ -95,20 +99,39 @@ function db_save($data) {
 // Requesting a whole GPX track by its name.
 //
 function db_get_track_by_name($trackname) {
-	return _db_select("select t.lat, t.lon, t.time from tracks t where runnerid = '$trackname' order by pointid asc");
+	return _db_select("select t.lat, t.lon, t.time from tracks t where runnerid = '"._escape_string($trackname)."' order by pointid asc");
 }
 
 //
 // Requesting the last position of a track by its name.
 //
 function db_get_last_position($trackname) {
-	$lastid = _db_select("select max(pointid) as lastid from tracks where runnerid = '$trackname'")[0]['lastid'];
-	return _db_select("select * from tracks t where runnerid = '$trackname' and pointid = '$lastid' limit 1");
+	$lastid = _db_select("select max(pointid) as lastid from tracks where runnerid = '"._escape_string($trackname)."'")[0]['lastid'];
+	return _db_select("select * from tracks t where runnerid = '"._escape_string($trackname)."' and pointid = '$lastid' limit 1");
 }
 
 //
 // Requesting the liste of all the tracks
 //
 function db_get_track_list() {
-	return _db_select("select distinct runnerid as trackname from tracks;");
+	return _db_select("select distinct runnerid as trackname from tracks");
+}
+
+//
+// CRUD : Deleting a GPX track.
+//
+function db_delete_track($trackname) {
+	try {
+		$pdo = _db_connect();
+		$statment = $pdo->prepare("delete from tracks where runnerid = '"._escape_string($trackname)."'");
+		$statment->execute();
+		$no=$statment->rowCount();
+		// delete cached gpx file.
+		foreach(glob("./gpx/$trackname-*.gpx") as $f) {
+			unlink($f);
+		}
+		return'{ "message": "OK", "count": '.$no.' }';
+	} catch(PDOException $e) {
+		return $e->getMessage();
+	}
 }

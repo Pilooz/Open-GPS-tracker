@@ -40,6 +40,15 @@ switch ($action) {
         echo json_encode($res);
         break;
 
+    // CRUD API
+    case 'delete':
+        $res = db_delete_track($_GET['runnerid']);
+        // header('Location: index.php?action=view');
+        header("Content-Type: application/json");
+        echo $res;        
+        break;
+    
     default:
+        header('Location: index.php?action=gps');
         break;
 }

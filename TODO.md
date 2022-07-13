@@ -20,8 +20,8 @@
    + Front
    + back php
    + database
-   - Persistance BDD 
- - Affichage de la date en français sur le viewer
+   + Persistance BDD 
+ + Affichage de la date en français sur le viewer
 
 ### Navigation
 
@@ -42,5 +42,9 @@
   
   - Se passer de base de données ? => fichiers GPX
   + Comptage des points gps
-  - Caching de l'envoie des points gps
-  - 
+  - ~~Caching de l'envoie des points gps~~
+  + supprimer les tracks
+  - sécuriser la suppression côté UI et Serveur (contrôle des droits)
+  - Header "no-cache" pour le php
+  - Refactoring : umbrella.js sur le viewer
+  - paramètre trackname vs runnerid 

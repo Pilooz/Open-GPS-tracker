@@ -1,41 +1,6 @@
-# # Déploiement Nginx / php 
-# # https://www.sitepoint.com/docker-php-development-environment/
-# version: '3'
-# services:
-#     web:
-#         image: jonasal/nginx-certbot:latest
-#         ports:
-#           - "80:80"
-#           - "443:443"
-#         environment:
-#           CERTBOT_EMAIL: 'pierregilles.levallois@gmail.com'
-#           DEBUG: '1'
-#         volumes:
-#           - ./docker/conf/nginx.conf:/etc/nginx/conf.d/nginx.conf
-#           - ./app:/app
-#     php:
-#         build:
-#             context: .
-#             dockerfile: php.Dockerfile
-#         volumes:
-#             - ./app:/app
-#     mysql:
-#         environment:
-#             MARIADB_ROOT_PASSWORD: 'secret'
-#             MARIADB_USER: 'tracker'
-#             MARIADB_PASSWORD: 'secret'
-#             MARIADB_DATABASE: 'gpstracker'
-#         build:
-#             context: .
-#             dockerfile: mariadb.dockerfile
-#         volumes:
-#             - C:\Users\ICG4702\Documents\developpements\Open-GPS-tracker\mysqldata:/var/lib/mysql
-#             - ./docker/db-init/:/docker-entrypoint-initdb.d/
-#         ports:
-#             - 3306:3306
-# volumes:
-#   mysqldata: {}
-
+# Déploiement Nginx / php /mysql
+# https://www.sitepoint.com/docker-php-development-environment/
+# https://mindsers.blog/fr/post/configurer-https-nginx-docker-lets-encrypt/
 
 version: '3'
 
@@ -55,3 +20,25 @@ services:
     volumes:
       - ./docker/certbot/www/:/var/www/certbot/:rw
       - ./docker/certbot/conf/:/etc/letsencrypt/:rw
+  php:
+      build:
+          context: .
+          dockerfile: php.Dockerfile
+      volumes:
+          - ./app:/app
+  mysql:
+      environment:
+          MARIADB_ROOT_PASSWORD: 'secret'
+          MARIADB_USER: 'tracker'
+          MARIADB_PASSWORD: 'secret'
+          MARIADB_DATABASE: 'gpstracker'
+      build:
+          context: .
+          dockerfile: mariadb.dockerfile
+      volumes:
+          - C:\Users\ICG4702\Documents\developpements\Open-GPS-tracker\mysqldata:/var/lib/mysql
+          - ./docker/db-init/:/docker-entrypoint-initdb.d/
+      ports:
+          - 3306:3306
+volumes:
+  mysqldata: {}

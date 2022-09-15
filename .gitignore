@@ -2,3 +2,5 @@
 app/public/config/config.php
 app/public/gpx/*.gpx
 mysqldata
+
+docker/certbot/**

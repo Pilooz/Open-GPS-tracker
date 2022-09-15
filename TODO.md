@@ -12,6 +12,8 @@
     + ressources js dans un rep js
     + dégager Jquery pour plus de légèreté
   + Réorganiser la partie database
+  - Le Viewver doit être par défaut
+  - tracker protégé par login/mdp
 
 ## Features
 
@@ -22,6 +24,8 @@
    + database
    + Persistance BDD 
  + Affichage de la date en français sur le viewer
+ ~ Changer d'image docker pour embarquer un certificat SSL 
+  => La géoloc du navigateur ne fonctionne pas en http !!
 
 ### Navigation
 
@@ -31,9 +35,10 @@
   - http://127.0.0.1/api/gpx/[trackname]  => action=gpx&runnerid=trackname
 
 
-## Prospective 
+
+### Prospective 
+  + Dark theme pour l'écran "track"
   - viewer : charger une trace par défaut : la dernière ?
-  - Dark theme pour l'écran "track"
   - Afficher plusieurs traces GPX ?
   - Ajouter Authentification sur viewer (lecture)
   - Ajouter authentification sur tracker (admin)

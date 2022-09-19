@@ -2,3 +2,5 @@
 app/config/config.php
 app/public/gpx/*.gpx
 mysqldata
+
+docker/conf/certs/*

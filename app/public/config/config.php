@@ -7,7 +7,7 @@ define('DB_USER', 'tracker');
 define('DB_PASSWORD', 'secret');
 
 // MySQL-server
-define('DB_HOST', 'open-gps-tracker-mysql-1');
+define('DB_HOST', 'gpstracker-mysql');
 
 // MySQL-port
 define('DB_PORT', '3306');

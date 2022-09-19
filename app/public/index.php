@@ -3,7 +3,7 @@
 require_once '../config/config.php';
 require_once '../lib/lib.db.php';
 
-$action = (isset($_GET['action']) &&  $_GET['action'] !== "") ? $_GET['action'] : "gps";
+$action = (isset($_GET['action']) &&  $_GET['action'] !== "") ? $_GET['action'] : "view";
 
 switch ($action) {
     // Tracking position UI
@@ -49,6 +49,6 @@ switch ($action) {
         break;
     
     default:
-        header('Location: index.php?action=gps');
+        header('Location: index.php?action=view');
         break;
 }

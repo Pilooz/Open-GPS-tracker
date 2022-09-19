@@ -14,9 +14,9 @@
   + Réorganiser la partie database
 
 ## Sécurité 
-  + Droits sur es répertoires dans app
-  + Sortir le rep gpx de la www root et ecrire un traitement de transfert.
-  + 
+  - Droits sur les répertoires dans app ?
+  ~~ Sortir le rep gpx de la www root et ecrire un traitement de transfert ~~
+  
 ## Features
 
  + Passer sous OSM + Leaflet
@@ -27,6 +27,7 @@
    + Persistance BDD 
  + Affichage de la date en français sur le viewer
  + passer en https
+ + Page par defaut : view
  - Refresh auto sur la visualisation d'une trace
    - récupérer dernier point et faire une selection différentielle dans la bd
    - gestion du cache gpx ? comment faire ?

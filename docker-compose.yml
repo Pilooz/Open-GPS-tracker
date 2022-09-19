@@ -7,8 +7,10 @@ services:
         image: nginx:latest
         ports:
           - "80:80"
+          - "443:443"
         volumes:
-          - ./docker/conf/nginx.conf:/etc/nginx/conf.d/nginx.conf
+          - ./docker/conf/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
+          - ./docker/conf/certs:/etc/nginx/certs:ro
           - ./app:/app
         links:
           - "php:gpstracker-php"

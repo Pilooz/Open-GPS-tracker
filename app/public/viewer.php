@@ -34,8 +34,8 @@
 -->
   <head>
   <title>visualiser</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+	<link rel="stylesheet" href="/css/vendor/mini-3.0.1/mini-default.min.css">
+    <link rel="stylesheet" href="/css/vendor/leaflet-1.7.1/leaflet.css" />
     <style type="text/css">
 	  .box { border: 1px #aaa solid; border-radius: 7px; margin:1.5em;}
       .box header { padding: 0.5em; }

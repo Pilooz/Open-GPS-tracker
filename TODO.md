@@ -22,6 +22,10 @@
    + database
    + Persistance BDD 
  + Affichage de la date en français sur le viewer
+ - Refresh auto sur la visualisation d'une trace
+   - récupérer dernier point et faire une selection différentielle dans la bd
+   - gestion du cache gpx ? comment faire ?
+   - UI : Bouton on/off dés/activer "suivi temps réel"
 
 ### Navigation
 

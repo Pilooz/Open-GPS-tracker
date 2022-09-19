@@ -1,6 +1,6 @@
 <?php
 // require_once '../lib/lib.auth.php';
-require_once './config/config.php';
+require_once '../config/config.php';
 require_once '../lib/lib.db.php';
 
 $action = (isset($_GET['action']) &&  $_GET['action'] !== "") ? $_GET['action'] : "gps";

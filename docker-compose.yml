@@ -11,7 +11,7 @@ services:
         volumes:
           - ./docker/conf/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
           - ./docker/conf/certs:/etc/nginx/certs:ro
-          - ./app:/app
+          - ./app:/app:ro
         links:
           - "php:gpstracker-php"
 

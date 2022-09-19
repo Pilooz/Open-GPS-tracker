@@ -13,6 +13,10 @@
     + dégager Jquery pour plus de légèreté
   + Réorganiser la partie database
 
+## Sécurité 
+  + Droits sur es répertoires dans app
+  + Sortir le rep gpx de la www root et ecrire un traitement de transfert.
+  + 
 ## Features
 
  + Passer sous OSM + Leaflet
@@ -22,6 +26,7 @@
    + database
    + Persistance BDD 
  + Affichage de la date en français sur le viewer
+ + passer en https
  - Refresh auto sur la visualisation d'une trace
    - récupérer dernier point et faire une selection différentielle dans la bd
    - gestion du cache gpx ? comment faire ?
@@ -36,16 +41,17 @@
 
 
 ## Prospective 
-  - viewer : charger une trace par défaut : la dernière ?
-  - Dark theme pour l'écran "track"
+  + viewer : charger une trace par défaut : la dernière ?
+  + Dark theme pour l'écran "track"
   - Afficher plusieurs traces GPX ?
+    - UI : Switcher "cumul de trace On/Off"
   - Ajouter Authentification sur viewer (lecture)
   - Ajouter authentification sur tracker (admin)
     - Ajouter une table des users. 
     - préfixer automatiquement toutes les traces par le login user.
   
   - Se passer de base de données ? => fichiers GPX
-  + Comptage des points gps
+  + Comptage des points gps sur tracker
   - ~~Caching de l'envoie des points gps~~
   + supprimer les tracks
   - sécuriser la suppression côté UI et Serveur (contrôle des droits)

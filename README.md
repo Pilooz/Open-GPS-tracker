@@ -11,10 +11,15 @@ Open GPS-tracker is a GPS-tracking-thing written in JavaScript and some PHP. It 
 
 ## Installation
 
+```bash
+mkdir -p app/public/gpx
+```
+
 ### Localhost ssl installation
 
 ```bash
-cd docker/conf/
+mkdir -p docker/conf/certs
+cd docker/conf/certs
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx-selfsigned.key -out nginx-selfsigned.crt
 ```
 Launch docker containers at the project's root :

@@ -88,9 +88,19 @@
   <script type="application/javascript">
 	document.addEventListener("DOMContentLoaded", function(event) { 
     const date_options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    var layerList=[]; // list of gpx layersin leaflet control
+    
+    // Map initialization ----------------------------------
+    var mapid=document.getElementById('demo').getAttribute('data-map-target'); // Leaflet map container
+    var map = L.map(mapid);
+    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="http://www.osm.org">OpenStreetMap</a>'
+      }).addTo(map);
+    var control = L.control.layers(null, null).addTo(map);
+    // ----------------------------------------------------
 
     function set_listening_action() {
-      var buttons = document.querySelectorAll('.action');
+      var buttons = document.querySelectorAll('.action,.delete');
       buttons.forEach(b => {
           b.addEventListener('click', function () {
           // location.href="index.php?action=delete&runnerid=" + this.id;
@@ -108,33 +118,32 @@
           .catch(error => {console.log(error)});
         });
       });
-    }
 
-	  function display_list(elt, data) {
-      data.forEach(t => {
-        var tr = document.createElement("tr");
-        tr.innerHTML = "<td><a href=\"index.php?action=view&trackname=" + t.trackname + "\">" + t.trackname + "</a></td>";
-        tr.innerHTML += "<td><button id=\"" + t.trackname + "\" class='small rounded shadowed action'>Supprimer</button></td>";
-        elt.appendChild(tr);		
+      var tracks = document.querySelectorAll('.view_track');
+      tracks.forEach(t => {
+          t.addEventListener('click', function () {
+            get_gpx_trace(this.id);
+        });
       });
-	  }
+    }
 
     function display_gpx(elt, url) {
       if (!elt) return;
-  
-      var mapid = elt.getAttribute('data-map-target');
+
+      // var mapid; = elt.getAttribute('data-map-target');
 
       if (!url || !mapid) return;
 
       function _t(t) { return elt.getElementsByTagName(t)[0]; }
       function _c(c) { return elt.getElementsByClassName(c)[0]; }
 
-      var map = L.map(mapid);
-      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Map data &copy; <a href="http://www.osm.org">OpenStreetMap</a>'
-      }).addTo(map);
+      // var map = L.map(mapid);
+      // L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      //   attribution: 'Map data &copy; <a href="http://www.osm.org">OpenStreetMap</a>'
+      // }).addTo(map);
 
-      var control = L.control.layers(null, null).addTo(map);
+      // var control = L.control.layers(null, null).addTo(map);
+      //layerList.push(map)
 
       new L.GPX(url, {
         async: true,
@@ -149,9 +158,19 @@
         },
       }).on('loaded', function(e) {
         var gpx = e.target;
-        map.fitBounds(gpx.getBounds());
-        control.addOverlay(gpx, gpx.get_name());
 
+        if (layerList.indexOf(gpx.get_name()) == -1 ) {
+          map.fitBounds(gpx.getBounds());
+          layerList.push(gpx.get_name());
+          control.addOverlay(gpx, gpx.get_name());
+        }
+
+        // layerList.push(gpx);
+        // console.log(layerList);
+        // layerList.forEach(trk => {
+        //   control.addOverlay(trk, trk.get_name());
+        // });
+        
         /*
           * Note: the code below relies on the fact that the demo GPX file is
           * an actual GPS track with timing and heartrate information.
@@ -183,6 +202,16 @@
 				.catch(error => {console.log(error)});
 		}
 	}
+
+  function display_list(elt, data) {
+      data.forEach(t => {
+        var tr = document.createElement("tr");
+        // tr.innerHTML = "<td><a href=\"index.php?action=view&trackname=" + t.trackname + "\">" + t.trackname + "</a></td>";
+        tr.innerHTML = "<td><a class='view_track' id='" + t.trackname + "'>" + t.trackname + "</a></td>";
+        tr.innerHTML += "<td><button id=\"" + t.trackname + "\" class='small rounded shadowed action delete'>Supprimer</button></td>";
+        elt.appendChild(tr);		
+      });
+	  }
 
 	function get_list() {
 	  fetch("index.php?action=tracklist", {

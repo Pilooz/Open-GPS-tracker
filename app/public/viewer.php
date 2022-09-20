@@ -88,6 +88,8 @@
   <script type="application/javascript">
 	document.addEventListener("DOMContentLoaded", function(event) { 
     const date_options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const color_options = ['black', 'blue', 'green', 'red', 'orange', 'yellow', 'brown'];
+    var color_index=0;
     var layerList=[]; // list of gpx layersin leaflet control
     
     // Map initialization ----------------------------------
@@ -97,13 +99,30 @@
         attribution: 'Map data &copy; <a href="http://www.osm.org">OpenStreetMap</a>'
       }).addTo(map);
     var control = L.control.layers(null, null).addTo(map);
+
+    var marker_options = {
+          startIconUrl: 'images/pin-icon-start.png',
+          endIconUrl:   'images/pin-icon-end.png',
+          shadowUrl:    'images/pin-shadow.png',
+          iconSize: [22, 32],
+          shadowSize: [35, 35],
+          iconAnchor: [11, 32],
+          shadowAnchor: [11, 33],
+        }
+
+    var polyline_options = {
+          color: 'green',
+          opacity: 0.75,
+          weight: 3,
+          lineCap: 'round'
+        }
     // ----------------------------------------------------
 
+    // Setting listeners ----------------------------------
     function set_listening_action() {
       var buttons = document.querySelectorAll('.action,.delete');
       buttons.forEach(b => {
           b.addEventListener('click', function () {
-          // location.href="index.php?action=delete&runnerid=" + this.id;
           fetch("index.php?action=delete&runnerid=" + this.id, {
             method: 'GET',
             headers: {
@@ -126,50 +145,36 @@
         });
       });
     }
+    // ----------------------------------------------------
 
+    // Displaying GPX files on the map --------------------
     function display_gpx(elt, url) {
       if (!elt) return;
-
-      // var mapid; = elt.getAttribute('data-map-target');
-
       if (!url || !mapid) return;
 
       function _t(t) { return elt.getElementsByTagName(t)[0]; }
       function _c(c) { return elt.getElementsByClassName(c)[0]; }
-
-      // var map = L.map(mapid);
-      // L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      //   attribution: 'Map data &copy; <a href="http://www.osm.org">OpenStreetMap</a>'
-      // }).addTo(map);
-
-      // var control = L.control.layers(null, null).addTo(map);
-      //layerList.push(map)
-
+      // Set color for the new track
+      polyline_options.color=color_options[color_index];
       new L.GPX(url, {
         async: true,
-        marker_options: {
-          startIconUrl: 'images/pin-icon-start.png',
-          endIconUrl:   'images/pin-icon-end.png',
-          shadowUrl:    'images/pin-shadow.png',
-    iconSize: [22, 32],
-      shadowSize: [35, 35],
-    iconAnchor: [11, 32],
-    shadowAnchor: [11, 33],
-        },
+        polyline_options: polyline_options,
+        marker_options: marker_options,
       }).on('loaded', function(e) {
+
         var gpx = e.target;
-
-        if (layerList.indexOf(gpx.get_name()) == -1 ) {
+        if (layerList.indexOf(gpx.get_name()) < 0 ) {
           map.fitBounds(gpx.getBounds());
-          layerList.push(gpx.get_name());
+          layerList[layerList.length]=gpx.get_name();
           control.addOverlay(gpx, gpx.get_name());
+          // dealing with track colors
+          color_index++;
+          if (color_index > color_options.length) {
+            color_index=0;
+          } 
+        } else {
+          // Just select the displayed track.
         }
-
-        // layerList.push(gpx);
-        // console.log(layerList);
-        // layerList.forEach(trk => {
-        //   control.addOverlay(trk, trk.get_name());
-        // });
         
         /*
           * Note: the code below relies on the fact that the demo GPX file is
@@ -187,6 +192,7 @@
       }).addTo(map);
     }
 
+  // Getting the gpx file from server -------------------
 	function get_gpx_trace(trackname) {
 		if (trackname !== undefined && trackname !== "" ) {
 			fetch("index.php?action=gpx&runnerid="+trackname, {
@@ -202,17 +208,20 @@
 				.catch(error => {console.log(error)});
 		}
 	}
+  // ---------------------------------------------------- 
 
+  // Displaying list of gpx tracks ---------------------- 
   function display_list(elt, data) {
       data.forEach(t => {
         var tr = document.createElement("tr");
-        // tr.innerHTML = "<td><a href=\"index.php?action=view&trackname=" + t.trackname + "\">" + t.trackname + "</a></td>";
         tr.innerHTML = "<td><a class='view_track' id='" + t.trackname + "'>" + t.trackname + "</a></td>";
         tr.innerHTML += "<td><button id=\"" + t.trackname + "\" class='small rounded shadowed action delete'>Supprimer</button></td>";
         elt.appendChild(tr);		
       });
-	  }
+	}
+  // ----------------------------------------------------
 
+  // Retrieving list of gpx tracks from server ---------- 
 	function get_list() {
 	  fetch("index.php?action=tracklist", {
 			method: 'GET',
@@ -228,10 +237,11 @@
 			.catch(error => {console.log(error)});
 	}
 
-  // Let's start 
+  // Let's start ----------------------------------------
 	get_list();
 	get_gpx_trace('<?php if (isset($_GET['trackname'])) { echo $_GET['trackname']; } else {} ?>');
-	
+	// ----------------------------------------------------
+
 	});
   </script>
 </body>

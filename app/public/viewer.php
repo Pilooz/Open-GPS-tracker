@@ -87,11 +87,19 @@
   <script src="js/vendor/gpx.js"></script>
   <script type="application/javascript">
 	document.addEventListener("DOMContentLoaded", function(event) { 
+
+    // Functions ------------------------------------------
+    function _t(t) { return elt.getElementsByTagName(t)[0]; }
+    function _c(c) { return elt.getElementsByClassName(c)[0]; }
+    // ---------------------------------------------------- 
+
+    // Constants & global ---------------------------------
     const date_options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const color_options = ['black', 'blue', 'green', 'red', 'orange', 'yellow', 'brown'];
     var color_index=0;
     var layerList=[]; // list of gpx layersin leaflet control
-    
+    // ---------------------------------------------------- 
+
     // Map initialization ----------------------------------
     var mapid=document.getElementById('demo').getAttribute('data-map-target'); // Leaflet map container
     var map = L.map(mapid);
@@ -152,8 +160,6 @@
       if (!elt) return;
       if (!url || !mapid) return;
 
-      function _t(t) { return elt.getElementsByTagName(t)[0]; }
-      function _c(c) { return elt.getElementsByClassName(c)[0]; }
       // Set color for the new track
       polyline_options.color=color_options[color_index];
       new L.GPX(url, {
